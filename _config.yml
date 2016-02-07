@@ -1,19 +1,15 @@
-# Welcome to Jekyll!
-#
-# This config file is meant for settings that affect your whole blog, values
-# which you are expected to set up once and rarely need to edit after that.
-# For technical reasons, this file is *NOT* reloaded automatically when you use
-# 'jekyll serve'. If you change this file, please restart the server process.
-
 # Site settings
-title: Irving's blog
+title: Clean Blog
 header-img: img/home-bg.jpg
-email: oos111l@sjtu.edu.com
+email: oos1111@sjtu.edu.cn
+copyright_name: Your/Project/Corporate Name
 description: "Write your site description here. It will be used as your sites meta description as well!"
-baseurl: "/blog" # the subpath of your site, e.g. /blog
-url: "Irving-cl.github.io" # the base hostname & protocol for your site
+baseurl: "/"
+url: "Irving-cl.github.io"
+twitter_username: SBootstrap
 github_username:  Irving-cl
-email_username:  your-email@yourdomain.com
+facebook_username:  IronSummitMedia
+email_username:  oos1111@sjtu.edu.cn
 
 # Build settings
 markdown: kramdown
