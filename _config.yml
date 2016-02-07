@@ -1,14 +1,12 @@
 # Site settings
-title: 曹立的个人主页
+title: 曹立
 header-img: img/home-bg.jpg
 email: oos1111@sjtu.edu.cn
 copyright_name: Your/Project/Corporate Name
 description: "Write your site description here. It will be used as your sites meta description as well!"
 baseurl: ""
 url: "Irving-cl.github.io"
-twitter_username: SBootstrap
 github_username:  Irving-cl
-facebook_username:  IronSummitMedia
 email_username:  oos1111@sjtu.edu.cn
 
 # Build settings
