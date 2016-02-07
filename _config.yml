@@ -4,7 +4,7 @@ header-img: img/home-bg.jpg
 email: oos1111@sjtu.edu.cn
 copyright_name: Your/Project/Corporate Name
 description: "Write your site description here. It will be used as your sites meta description as well!"
-baseurl: "/"
+baseurl: ""
 url: "Irving-cl.github.io"
 twitter_username: SBootstrap
 github_username:  Irving-cl
@@ -13,7 +13,7 @@ email_username:  oos1111@sjtu.edu.cn
 
 # Build settings
 markdown: kramdown
-highlighter: pygments
+highlighter: rouge
 permalink: pretty
 paginate: 5
 exclude: ["less","node_modules","Gruntfile.js","package.json","README.md"]
