@@ -1,20 +1,30 @@
 # Site settings
-title: 曹立
-header-img: img/home-bg.jpg
-email: oos1111@sjtu.edu.cn
-copyright_name: Your/Project/Corporate Name
-description: "Write your site description here. It will be used as your sites meta description as well!"
-baseurl: ""
-url: "Irving-cl.github.io"
-github_username:  Irving-cl
+title: Jekyll-Uno
+description: 'Jekyll-Uno - a minimal, responsive theme for Jekyll'
+url: '' 
+#'http://joshgerdes.com/jekyll-uno' 
+baseurl: ''
+# google_analytics: 'UA-XXXXXX-X'
 
-email_username:  oos1111@sjtu.edu.cn
+author:
+  name: '曹立'
+  email: oos1111@sjtu.edu.cn
+  twitter_username: joshgerdes
+  github_username: Irving_cl
+  linkedin_username:  joshgerdes
 
 # Build settings
+destination: _site
+paginate: 10
+permalink: /:year/:title/
 markdown: kramdown
-highlighter: rouge
-permalink: pretty
-paginate: 5
-exclude: ["less","node_modules","Gruntfile.js","package.json","README.md"]
+highlighter: pygments
 
-gems: [jekyll-paginate, jekyll-feed]
+kramdown:
+  # use Github Flavored Markdown
+  input: GFM
+  # do not replace newlines by <br>s
+  hard_wrap: false
+
+gems: ['jekyll-paginate']
+exclude: ['README.md', 'Gemfile', 'Gemfile.lock', 'screenshot.png']
