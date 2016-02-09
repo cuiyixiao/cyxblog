@@ -1,6 +1,6 @@
 # Site settings
 title: 曹立
-description: 'Jekyll-Uno - a minimal, responsive theme for Jekyll'
+description: '我的个人主页'
 url: '' 
 #'http://joshgerdes.com/jekyll-uno' 
 baseurl: ''
@@ -9,9 +9,9 @@ baseurl: ''
 author:
   name: '曹立'
   email: oos1111@sjtu.edu.cn
-  twitter_username: joshgerdes
+  twitter_username: Irving__cl
   github_username: Irving_cl
-  linkedin_username:  joshgerdes
+  linkedin_username: 曹立
 
 # Build settings
 destination: _site
