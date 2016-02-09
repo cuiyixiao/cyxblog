@@ -1,9 +1,9 @@
 # Site settings
 title: 曹立
 description: '我的个人主页'
-url: '' 
+url: 'Irving_cl.github.io' 
 #'http://joshgerdes.com/jekyll-uno' 
-baseurl: ''
+baseurl: '/'
 # google_analytics: 'UA-XXXXXX-X'
 
 author:
