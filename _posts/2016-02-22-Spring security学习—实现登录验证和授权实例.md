@@ -7,7 +7,7 @@
 ##### 接下来就来一步一步构建这个样例：
 
 1. 需要安装的程序: IDEA, MAVEN, MYSQL；
-2. 在IDEA创建新MAVEN项目Spring-security，创建完新项目后项目目录如下： ![image](https://github.com/Irving-cl.github.io/images/20160222_1.png)
+2. 在IDEA创建新MAVEN项目Spring-security，创建完新项目后项目目录如下： ![image](https://github.com/Irving-cl/Irving-cl.github.io/images/20160222_1.png)
 
 3. 编辑pom.xml文件，构建maven依赖，源代码如下，直接复制粘贴就好：
 
@@ -64,7 +64,6 @@
        <properties>
            <java.version>1.8</java.version>
        </properties>
-   ​
 
        <build>
            <plugins>
