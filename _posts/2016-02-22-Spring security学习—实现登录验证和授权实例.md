@@ -1,5 +1,3 @@
-# Spring security学习—实现登录验证和授权实例
-
 最近要把公司APP后台管理系统的安全部分改用Spring security实现（原来用shiro实现）。由于对spring框架以及spring-security的理解不充分，就花了不少时间研究，也看了不少别人的代码。这里通过一个自己写的spring-security样例来回顾总结一下自己当时理解不对的地方。
 
 ##### 样例程序说明：
@@ -9,7 +7,7 @@
 ##### 接下来就来一步一步构建这个样例：
 
 1. 需要安装的程序: IDEA, MAVEN, MYSQL；
-2. 在IDEA创建新MAVEN项目Spring-security，创建完新项目后项目目录如下： ![Alt text][/images/cover.jpg]
+2. 在IDEA创建新MAVEN项目Spring-security，创建完新项目后项目目录如下： ![Alt text](../images/20160222_1.png)
 
 3. 编辑pom.xml文件，构建maven依赖，源代码如下，直接复制粘贴就好：
 
