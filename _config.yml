@@ -14,7 +14,7 @@ title:            'Jekyll Metro'
 tagline:          'A Metro theme for Jekyll'
 description:      'A Sample blog using Jekyll Metro'
 url:              'Irving_cl.github.io'
-baseurl:          ‘/‘
+baseurl:          
 
 # Navigation
 navigation:
