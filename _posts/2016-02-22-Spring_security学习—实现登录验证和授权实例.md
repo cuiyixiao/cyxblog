@@ -15,7 +15,7 @@ tags: [java, spring]
 ##### 接下来就来一步一步构建这个样例：
 
 1. 需要安装的程序: IDEA, MAVEN, MYSQL；
-2. 在IDEA创建新MAVEN项目Spring-security，创建完新项目后项目目录如下： </br> 
+2. 在IDEA创建新MAVEN项目Spring-security，创建完新项目后项目目录如下：  
 
    ![image](https://github.com/Irving-cl/Irving-cl.github.io/raw/master/images/20160222_1.png)
 
@@ -104,6 +104,9 @@ tags: [java, spring]
 
    后续的过程中可能会碰到各种can't resolve xxx的情况，可能就是maven还没来得及把需要的jar包从网上下下来，可以尝试在IDEA中右击->Maven->Reimport，应该可以解决；
 
-4. ​
-
-   ​
+4. 建立页面，有如下几个页面：</br>
+   | home.html | 不用登陆也能访问的页面 |
+   | :-------- | :---------- |
+   |           |             |
+   |           |             |
+   |           |             |
