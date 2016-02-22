@@ -1,11 +1,3 @@
----
-layout: post
-title:  "Spring security学习—实现登录验证和授权实例"
-date:
-categories:  [java, spring, security]
-tags: [java, spring, security]
----
-
 要把公司APP后台管理系统的安全部分改用Spring security实现（原来用shiro实现）。由于对spring框架以及spring-security的理解不充分，就花了不少时间研究，也看了不少别人的代码。这里通过一个自己写的spring-security样例来回顾总结一下自己当时理解不对的地方。
 
 ##### 样例程序说明：
