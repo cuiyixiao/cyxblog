@@ -14,10 +14,11 @@ description: Home Page for Jekyll Metro Theme
 	<nav>
 		<div class="row">
  			<div class="col-md-4 col-sm-6 col-xs-12">
-				<a href="about/" title="About Me">
+
+			<a href="about/" title="About Me">
 					<div class="tile purple profile">
 						<h2 class="title">About Me</h2>
-						<p>Hello World, I am {{site.author}}.</p>
+						<p>Hello, I am {{site.author}}.</p>
 					</div>
 				</a>
 		    </div>
@@ -37,16 +38,16 @@ description: Home Page for Jekyll Metro Theme
 				</a>
 			</div>
 		</div>
-
+	
 		<div class="row">
-
+	
 			<div class="col-md-4 col-sm-6 col-xs-12">
 				{% for post in site.posts offset:1 limit:1 %}
 				<a href="{{post.url}}" title="Recent Article">
 					<div class="tile green">
 						<h3 class="title">Recent Article</h3>
 						<h4 class="title">{{ post.title }}</h4>
-						<p> {{ post.content | strip_html | truncatewords: 10 }}</p>
+						<p></p>
 					</div>
 				</a>
 				{% endfor %}
@@ -59,18 +60,18 @@ description: Home Page for Jekyll Metro Theme
 					<div class="tile red">
 						<h3 class="title">Latest Article</h3>
 						<h4 class="title">{{ post.title }}</h4>
-						<p> {{ post.content | strip_html | truncatewords: 10 }}</p>
+						<p></p>
 					</div>
 				</a>
 				{% endfor %}
 			</div>
-
+	
 			<div class="col-md-2 col-sm-3 col-xs-6">
 				<a href="{{site.stackoverflow}}" title="StackOverflow" class="tile darken" >
 					<i class="icon-skow" style="font-size:8em;color:white"></i>
 				</a>
 			</div>
-
+	
 			<div class="col-md-4 col-sm-6 col-xs-12">
 				{% for post in site.posts %}
 					{% if post.featured == true %}
@@ -78,7 +79,7 @@ description: Home Page for Jekyll Metro Theme
 						<div class="tile orange">
 							<h3 class="title">Featured Article</h3>
 							<h4 class="title">{{ post.title }}</h4>
-							<p> {{ post.content | strip_html | truncatewords: 10 }}</p>
+							<p></p>
 						</div>
 					</a>
 					{% break %}
@@ -86,35 +87,35 @@ description: Home Page for Jekyll Metro Theme
 				{% endfor %}
 			</div>
 		</div>
-
+	
 		<div class="row" style="margin-bottom:25px">
-
+	
 			<div class="col-md-2 col-sm-3 col-xs-6">
 				<a href="{{site.twitter}}" title="Twitter" class="tile blue">
 					<i class="icon-twtr" style="font-size:8em"></i>
 				</a>
 			</div>
-
+	
 			<div class="col-md-2 col-sm-3 col-xs-6">
 				<a href="{{site.gplus}}" title="Google Plus"  class="tile orange">
 					<i class="icon-gpls" style="font-size:8em"></i>
 				</a>
 			</div>
-
+	
 			<div class="col-md-2 col-sm-3 col-xs-6">
 				<a href="{{site.facebook}}" class="tile blue">
 					<i class="icon-fcbk" style="font-size:8em"></i>
 				</a>
 			</div>
-
+	
 			<div class="col-md-2 col-sm-3 col-xs-6">
-
+	
 				<a href="{{site.github}}" title="Github" class="tile purple">
 					<i class="icon-gthb" style="font-size:8em"></i>
 				</a>
-
+	
 			</div>
-
+	
 			<div class="col-md-2 col-sm-3 col-xs-6">
 				<a href="{{site.linkedin}}" title="LinkedIn" class="tile blue">
 					<i class="icon-lkin" style="font-size:8em"></i>

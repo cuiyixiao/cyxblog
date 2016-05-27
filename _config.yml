@@ -33,21 +33,21 @@ navigation:
 
 
 # Author Details
-author:         'Abdel Raoof Olakara'
+author:         'Li Cao(曹立)'
 
 #Social Media links (Use complete URL except for email)
 dribbble:
-email:
-facebook:       'https://www.facebook.com/olakara'
+email:          'oos1111@sjtu.edu.cn'
+facebook:       
 flickr:
-github:         'https://github.com/olakara'
-gplus:          'https://plus.google.com/100425464897246255887/'
+github:         'https://github.com/Irving-cl'
+gplus:          
 instagram:
 pinterest:
-linkedin:       'https://ae.linkedin.com/in/olakara/'
+linkedin:       
 rss:
-stackoverflow:  'http://stackoverflow.com/users/185655/abdel-raoof'
-twitter:        'https://twitter.com/olakara'
+stackoverflow:  
+twitter:        
 
 # Google Analytics
 gahandler: 'UA-52149651-1'
