@@ -1,67 +1,19 @@
-# Configurations
+# Welcome to Jekyll!
+#
+# This config file is meant for settings that affect your whole blog, values
+# which you are expected to set up once and rarely need to edit after that.
+# For technical reasons, this file is *NOT* reloaded automatically when you use
+# 'jekyll serve'. If you change this file, please restart the server process.
+
+# Site settings
+title: Irving's blog
+email: irving.cao@gmail.com
+description: > # this means to ignore newlines until "baseurl:"
+  Think twice, code once.
+baseurl: "" # the subpath of your site, e.g. /blog
+url: "http://yourdomain.com" # the base hostname & protocol for your site
+twitter_username: jekyllrb
+github_username: Irving-cl 
+
+# Build settings
 markdown: kramdown
-markdown_ext:  markdown,mkdown,mkdn,mkd,md
-highlighter: rouge
-
-# Needed for backward compatibility
-gems: [jekyll-paginate]
-
-# Permalinks
-permalink:        /blog/:year/:month/:day/:title
-
-# Setup
-title:            'Jekyll Metro'
-tagline:          'A Metro theme for Jekyll'
-description:      'A Sample blog using Jekyll Metro'
-url:              
-baseurl:          
-
-# Navigation
-navigation:
-- text: About
-  url: /about/
-- text: Resume
-  url: /resume/
-- text: Blog
-  url: /blog/
-- text: Tags
-  url: /tags/
-- text: Archive
-  url : /archive/
-- text: Search
-  url: /search/
-
-
-# Author Details
-author:         'Li Cao(曹立)'
-
-#Social Media links (Use complete URL except for email)
-dribbble:
-email:          'oos1111@sjtu.edu.cn'
-facebook:       
-flickr:
-github:         'https://github.com/Irving-cl'
-gplus:          
-instagram:
-pinterest:
-linkedin:       
-rss:
-stackoverflow:  
-twitter:        
-
-# Google Analytics
-gahandler: 'UA-52149651-1'
-
-#if footersvg is 'true' the social media links will be shown top on the copy right in the footer
-footersvg: 'true'
-
-# Disqus
-disqushandler: 'testingblogo'
-
-# Blog Configurations
-paginate: 10 # Posts per page on the blog index
-paginate_path: '/blog/page:num'
-destination: ./_site
-
-# Custom vars
-version:          0.9x beta 2
