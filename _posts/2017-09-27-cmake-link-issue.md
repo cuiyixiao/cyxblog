@@ -1,6 +1,8 @@
 ---
 layout: post
 title: "CMake link issue"
+date: 2017-09-27 15:15:27 +0800
+categories: cmake
 ---
 
 When we use cmake to compile our program and use `TARGET_LINK_LIBRARIES` to link libraries we need, we have to pay attention to the order these libraries are specified.
