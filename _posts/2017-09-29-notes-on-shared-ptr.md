@@ -5,7 +5,7 @@ date: 2017-09-29 18:49:00 +0800
 categories: c++
 ---
 
-It may be unnessary to introduce what `shared_ptr` is. Let's just figure out how its use_count increase and decrease, and some potential misuse we need to avoid.
+It may be unnessary to introduce what `shared_ptr` is. Let's just figure out how its use_count increases and decreases, and some potential misuse we need to avoid.
 
 ### Share Ownership
 It is described in detail on [c++ reference shared_ptr](http://www.cplusplus.com/reference/memory/shared_ptr/). And I think the following paragraph is quite important:
