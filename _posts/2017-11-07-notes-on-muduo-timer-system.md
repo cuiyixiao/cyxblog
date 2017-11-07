@@ -1,6 +1,7 @@
 ---
 layout: post
 title: Notes on Muduo Timer
+date: 2017-11-07 11:41:00 +0800
 categories: c++ net
 ---
 Recently I am studying [Muduo](https://github.com/chenshuo/muduo), a net library written by ChenShuo.
