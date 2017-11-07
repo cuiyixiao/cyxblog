@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Notes on Muduo Timer
-categories: c++, net
+categories: c++ net
 ---
 Recently I am studying [Muduo](https://github.com/chenshuo/muduo), a net library written by ChenShuo.
 And I think the timer system of it is worth learning, so I did some notes on it in this article.
@@ -108,7 +108,7 @@ Wow, wonderful! This enables us to take an expiration as the same thing with an 
 And we can detect these events with `poll`.
 #### How to add a Timer?
 1.   At the very beginning, we create a timerfd by calling `timerfd_create` of linux.
-     This is only done once.
+     This is done only once.
      But we may set the timerfd many times later.
      We may have a lot of timer, and we want to be notified when the earliest one of them expired.
 2.   Insert the timer into the data structure we use to store them, which is `timers_` here.
@@ -126,4 +126,9 @@ And we can detect these events with `poll`.
      We do this by calling linux function `timerfd_settime`.  
  
 #### How to call the callbacks when they expired?
-
+As I mentioned above, a timerfd is treated as a normal fd.
+And we use `poll` function to detect that.
+By the way, let's take a look at Muduo's thread model.
+Muduo is of the `Reactor` Pattern.
+Every single loop of `EventLoop` looks like this:  
+![img](https://github.com/Irving-cl/Irving-cl.github.io/_assets/notes_on_muduo_timer_system/muduo_reactor.png)  
