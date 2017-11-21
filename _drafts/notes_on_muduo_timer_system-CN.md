@@ -58,8 +58,8 @@ categories: c++ net
 *   `Timer`： 这其实是一个结构体，包含了一个*超时时间*和一个*回调函数对象*。
     当超时了之后，就该去调用那个回调函数。
 *   `TimerId`： 是一个`Timer`的标识，用于取消某个`Timer`。
-*   `Timestamp`： 时间戳，本质是从Epoch时间到现在的毫秒数。
-    是的，这里可以看出这个定时器最多只能精确到毫秒。
+*   `Timestamp`： 时间戳，本质是从Epoch时间到现在的微秒数。
+    是的，这里可以看出这个定时器最多精确到微秒。
 *   `TimerCallback`： 即我们要回调的回调函数。
 
 ## 定时器实现的原理
@@ -123,24 +123,24 @@ categories: c++ net
 ### 如何添加一个Timer？
 现在我们来看看添加Timer是如何具体实现的。
 1.   初始化的时候通过调用系统函数`timerfd_create`来创建一个`timerfd`。
-     对于每一个线程只需要一个`timerfd`就够了，create也只需要做一次。
-     但是我们会在之后多次设置这个fd。
+对于每一个线程只需要一个`timerfd`就够了，create也只需要做一次。
+但是我们会在之后多次设置这个fd。
 2.   将这个新的timer插入一个数据结构中，在这里的话就是`timers_`这个成员。
-     注意到`TimerList`和`Entry`的定义。
-     `TimerList`是一个`Entry`的set。
-     `Entry`是一个`Timestamp`和一个`Timer`的指针。
-     我们知道`std::set`是一个用红黑树实现的有序容器。
-     这样做是因为需要按照超时的时间费降序，然后可以每次根据当前的时间做一次二分搜索，取出所有超时的`Timer`。
-     是的，这不是最好的实现方式，每次取出一个`Timer`的开销都是**O(logN)**，作者自己也这样说。
-     最好的实现方法是使用堆，libevent中使用的是四叉堆。
-     但是标准库中提供的堆并提供删除的操作。
-     当然，使用平衡树的性能也已经足够了。
-     最后一点要注意，两个timer的timestamp相同也是有可能的，因此我们不能单独只用一个timestamp来进行增删操作。
-     因此将`Entry`这样定义，这保证了我们不会产生timer之间的冲突。
+注意到`TimerList`和`Entry`的定义。
+`TimerList`是一个`Entry`的set。
+`Entry`是一个`Timestamp`和一个`Timer`的指针。
+我们知道`std::set`是一个用红黑树实现的有序容器。
+这样做是因为需要按照超时的时间费降序，然后可以每次根据当前的时间做一次二分搜索，取出所有超时的`Timer`。
+是的，这不是最好的实现方式，每次取出一个`Timer`的开销都是**O(logN)**，作者自己也这样说。
+最好的实现方法是使用堆，libevent中使用的是四叉堆。
+但是标准库中提供的堆并提供删除的操作。
+当然，使用平衡树的性能也已经足够了。
+最后一点要注意，两个timer的timestamp相同也是有可能的，因此我们不能单独只用一个timestamp来进行增删操作。
+因此将`Entry`这样定义，这保证了我们不会产生timer之间的冲突。
 3.   可能需要重新设置timer_fd。
-     为了使超时尽可能精准，我们当然希望在最早的timer超时的时候收到反应。
-     这也就是说，如果新插入的timer时间最早的情况下，我们需要重新设置timer_fd。
-     我们通过调用`timerfd_settime`来重新设置fd的超时时间，
+为了使超时尽可能精准，我们当然希望在最早的timer超时的时候收到反应。
+这也就是说，如果新插入的timer时间最早的情况下，我们需要重新设置timer_fd。
+我们通过调用`timerfd_settime`来重新设置fd的超时时间，
  
 ### 如何在timer超时的时候调用其回调函数？
 熟悉I/O多路复用和poll的用法朋友几乎可以跳过这一段了。
@@ -151,15 +151,105 @@ categories: c++ net
 `EventLoop`的每一次循环都做了下面这些事：
 ![img](https://raw.githubusercontent.com/Irving-cl/Irving-cl.github.io/master/_assets/notes_on_muduo_timer_system/muduo_reactor.png)
 1.   一上来poller类会轮询所有的fd(通过调用相应的`poll`或者`epoll`)，得到所有fd上的事件。
-     然后将每一个fd上的事件传递给相应的`Channel`。
-     `Channel`可以看成是底层I/O和上层回调之间的一个桥梁。
-     这个就是专门负责timer_fd的Channel啦。
-     当超时发生时，Channel就会知道这个事件了。
+然后将每一个fd上的事件传递给相应的`Channel`。
+`Channel`可以看成是底层I/O和上层回调之间的一个桥梁。
+这个就是专门负责timer_fd的Channel啦。
+当超时发生时，Channel就会知道这个事件了。
 2.   然后`timerfdChannel_`发现它负责的fd变得可读了，就去调用它的handleRead这个函数。
 3.   在这个函数中，所有当前而言超时的Timer都会被删除，当然了，它们的回调函数会被调用。
-     最后别忘了，如果有timer到期的话，我们需要重新设置timer_fd。
+最后别忘了，如果有timer到期的话，我们需要重新设置timer_fd。
 
-现在我想大家应该大致了解**Muduo**定时器的实现了。
+## 关于timer_fd的补充
+通过以上的内容，我们已经了解了如何使用Linux系统提供的`timer_fd`来实现定时器。
+如果是第一次听说`timer_fd`的小伙伴相信对这个东西印象还比较模糊。
+不如趁这个机会最后再讨论一些关于它的事情，顺便也看一下**Muduo**作者的用法。
+当然如果要深入了解它的话，还是去看一下它的[man page](http://www.huge-man-linux.net/man2/timerfd_create.html)。  
+
+### timer_fd的精度
+精度显然是我们非常关心的问题。
+仔细的同学可能注意到上文有提到**Muduo**中的`Timerstamp`是*micro seconds since Epoch*。
+但不要认为`timer_fd`的精度就只到微秒了。
+我们来看一下`timerfd_settime`中代表超时时间的参数的类型`itimerspec`:  
+``` c++
+struct timespec {
+    time_t tv_sec;                /* Seconds */
+    long   tv_nsec;               /* Nanoseconds */
+};
+
+struct itimerspec {
+    struct timespec it_interval;  /* Interval for periodic timer */
+    struct timespec it_value;     /* Initial expiration */
+};
+```
+一目了然，**nanoseconds**，`timer_fd`是可以精确到**纳秒**的。
+但是话说回来，我们也很少需要精确到纳秒的情形。
+或许也是由于这个原因，**Muduo**的作者觉得精确到纳秒没有必要吧。
+
+### timer_fd使用示例
+我们直接来看**Muduo**中是怎么使用的`timer_fd`的吧。  
+创建`timer_fd`的过程：
+``` c++
+int createTimerfd()
+{
+    int timerfd = ::timerfd_create(CLOCK_MONOTONIC,
+                                 TFD_NONBLOCK | TFD_CLOEXEC);
+    if (timerfd < 0)
+    {
+        LOG_SYSFATAL << "Failed in timerfd_create";
+    }
+    return timerfd;
+}
+```
+其他的不必多说了，解释一下参数里的flags吧：  
+`CLOCK_MONOTONIC`代表计时不会因为系统时间改变而被影响，与之相对的是`CLOCK_REALTIME`。
+`TFD_NONBLOCK`相信各位都看的明白，非阻塞，别忘了`timer_fd`也是个fd，是要被读的。
+`TFD_CLOEXEC`，在调用`exec`后关闭，这也是个fd都会有的flag，一般用来在子进程中关闭这个fd。  
+如何设置`timer_fd`：
+``` c++
+struct timespec howMuchTimeFromNow(Timestamp when)
+{
+  int64_t microseconds = when.microSecondsSinceEpoch()
+                         - Timestamp::now().microSecondsSinceEpoch();
+  if (microseconds < 100)
+  {
+    microseconds = 100;
+  }
+  struct timespec ts;
+  ts.tv_sec = static_cast<time_t>(
+      microseconds / Timestamp::kMicroSecondsPerSecond);
+  ts.tv_nsec = static_cast<long>(
+      (microseconds % Timestamp::kMicroSecondsPerSecond) * 1000);
+  return ts;
+}
+
+void resetTimerfd(int timerfd, Timestamp expiration)
+{
+  // wake up loop by timerfd_settime()
+  struct itimerspec newValue;
+  struct itimerspec oldValue;
+  bzero(&newValue, sizeof newValue);
+  bzero(&oldValue, sizeof oldValue);
+  newValue.it_value = howMuchTimeFromNow(expiration);
+  int ret = ::timerfd_settime(timerfd, 0, &newValue, &oldValue);
+  if (ret)
+  {
+    LOG_SYSERR << "timerfd_settime()";
+  }
+}
+```
+这段代码好像有点意思。
+我们先来看`resetTimerfd`。
+其中`newValue`是我们设置的要超时的时间。
+而`oldValue`将被设置成当前的超时设置，也就是上一次的设置了。
+当然`oldValue`可以被设为**NULL**，如果我们不需要它的话。
+现在我想大家应该大致了解**Muduo**定时器的实现了。  
+然后来看`howMuchTimeFromNow`。
+这个函数其实把**Muduo**中的`Timestamp`转化成Linux需要的参数类型`struct timespec`。
+这里有一点需要注意，`ts`的两个成员一个代表秒，一个代表纳秒。
+实际上的超时时间应该是**两者的相加**。
+这是从以上的代码推测出来的，当然按照常识也是这样了。。。
+不过就这点来说，我觉得官方的文档好像说的不够清楚：
+
 最核心的要素还是`timer_fd`和`poll`的配合使用。
 有任何问题欢迎和我讨论^_^   
 **caoli.irving@shandagames.com**
