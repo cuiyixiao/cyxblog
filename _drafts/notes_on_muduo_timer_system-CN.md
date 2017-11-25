@@ -130,7 +130,7 @@ categories: c++ net
 `TimerList`是一个`Entry`的set。
 `Entry`是一个`Timestamp`和一个`Timer`的指针。
 我们知道`std::set`是一个用红黑树实现的有序容器。
-这样做是因为需要按照超时的时间费降序，然后可以每次根据当前的时间做一次二分搜索，取出所有超时的`Timer`。
+这样做是因为需要按照超时的时间降序存储，然后可以每次根据当前的时间做一次二分搜索，取出所有超时的`Timer`。
 是的，这不是最好的实现方式，每次取出一个`Timer`的开销都是**O(logN)**，作者自己也这样说。
 最好的实现方法是使用堆，libevent中使用的是四叉堆。
 但是标准库中提供的堆并提供删除的操作。
@@ -153,6 +153,7 @@ categories: c++ net
 1.   一上来poller类会轮询所有的fd(通过调用相应的`poll`或者`epoll`)，得到所有fd上的事件。
 然后将每一个fd上的事件传递给相应的`Channel`。
 `Channel`可以看成是底层I/O和上层回调之间的一个桥梁。
+注意到TimerQueue里有个成员`timerfdChannel_`。
 这个就是专门负责timer_fd的Channel啦。
 当超时发生时，Channel就会知道这个事件了。
 2.   然后`timerfdChannel_`发现它负责的fd变得可读了，就去调用它的handleRead这个函数。
@@ -241,15 +242,18 @@ void resetTimerfd(int timerfd, Timestamp expiration)
 我们先来看`resetTimerfd`。
 其中`newValue`是我们设置的要超时的时间。
 而`oldValue`将被设置成当前的超时设置，也就是上一次的设置了。
-当然`oldValue`可以被设为**NULL**，如果我们不需要它的话。
-现在我想大家应该大致了解**Muduo**定时器的实现了。  
+当然`oldValue`可以被设为**NULL**，如果我们不需要它的话。  
 然后来看`howMuchTimeFromNow`。
 这个函数其实把**Muduo**中的`Timestamp`转化成Linux需要的参数类型`struct timespec`。
 这里有一点需要注意，`ts`的两个成员一个代表秒，一个代表纳秒。
 实际上的超时时间应该是**两者的相加**。
 这是从以上的代码推测出来的，当然按照常识也是这样了。。。
 不过就这点来说，我觉得官方的文档好像说的不够清楚：
+![timerfd_create man page](https://raw.githubusercontent.com/Irving-cl/Irving-cl.github.io/master/_assets/notes_on_muduo_timer_system/timerfd_create_man_page.png)  
+它没说两个都设置会怎么样，是吧?
 
+## 尾语
+相信到这里，读者应该已经对`timer_fd`以及**Muduo**使用它来实现定时器的方式有了大致的了解。
 最核心的要素还是`timer_fd`和`poll`的配合使用。
 有任何问题欢迎和我讨论^_^   
 **caoli.irving@shandagames.com**
